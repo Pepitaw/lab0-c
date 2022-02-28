@@ -1,15 +1,17 @@
+#include "queue.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <time.h>
 #include "harness.h"
-#include "queue.h"
+#include "shuffle.h"
 
 /* Notice: sometimes, Cppcheck would find the potential NULL pointer bugs,
  * but some of them cannot occur. You can suppress them by adding the
  * following line.
  *   cppcheck-suppress nullPointer
  */
+
 
 /*
  * Create empty queue.
@@ -334,4 +336,17 @@ void q_sort(struct list_head *head)
     }
     head->prev = i;
     i->next = head;
+}
+
+void q_shuffle(struct list_head *head)
+{
+    srand(time(NULL));
+    for (int i = q_size(head); i > 0; i--) {
+        struct list_head *tmp = head->next, *tail = head->prev;
+        for (int x = rand() % i; x > 0; x--)
+            tmp = tmp->next;
+        list_del(tail);
+        list_add(tail, tmp);
+        list_move_tail(tmp, head);
+    }
 }

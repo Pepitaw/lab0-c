@@ -31,10 +31,10 @@
  * OK as long as head field of queue_t structure is in first position in
  * solution code
  */
-#include "queue.h"
-
 #include "console.h"
+#include "queue.h"
 #include "report.h"
+#include "shuffle.h"
 
 /* Settable parameters */
 
@@ -75,6 +75,13 @@ static const char charset[] = "abcdefghijklmnopqrstuvwxyz";
 
 /* Forward declarations */
 static bool show_queue(int vlevel);
+
+static bool do_shuffle(int argc, char *argv[])
+{
+    q_shuffle(l_meta.l);
+    show_queue(3);
+    return true && !error_check();
+}
 
 static bool do_free(int argc, char *argv[])
 {
@@ -635,7 +642,6 @@ bool do_sort(int argc, char *argv[])
             }
         }
     }
-
     show_queue(3);
     return ok && !error_check();
 }
@@ -795,6 +801,7 @@ static void console_init()
         dedup, "                | Delete all nodes that have duplicate string");
     ADD_COMMAND(swap,
                 "                | Swap every two adjacent nodes in queue");
+    ADD_COMMAND(shuffle, "                | Shuffle queue");
     add_param("length", &string_length, "Maximum length of displayed string",
               NULL);
     add_param("malloc", &fail_probability, "Malloc failure probability percent",

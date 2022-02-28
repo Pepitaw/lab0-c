@@ -13,6 +13,7 @@ ih gerbil
 # Now at the tail
 it meerkat
 it bear
+shuffle
 # Reverse it
 reverse
 # See how long it is
