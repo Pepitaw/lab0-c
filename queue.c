@@ -346,7 +346,7 @@ void q_shuffle(struct list_head *head)
         for (int x = rand() % i; x > 0; x--)
             tmp = tmp->next;
         list_del(tail);
-        list_add(tail, tmp);
+        list_add(tail, tmp->prev);
         list_move_tail(tmp, head);
     }
 }
